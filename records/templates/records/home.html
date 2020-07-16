@@ -1,0 +1,173 @@
+{% extends 'records/main.html' %}
+
+{% block content %}
+<br>
+<div class="row">
+	<div class="col">
+		<div class="col-md">
+			<div class="card text-center text-white  mb-3" id="total-students">
+			  	<div class="card-header">
+			  		<h5 class="card-title">Total Students</h5>
+			  	</div>
+			  	<div class="card-body">
+			    	<h3 class="card-title">{{total_students}}</h3>
+			  	</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="col">
+		<div class="col-md">
+			<div class="card text-center text-white  mb-3" id="completed_school_fees">
+			  	<div class="card-header">
+			  		<h5 class="card-title">Fees Completed</h5>
+			  	</div>
+			  	<div class="card-body">
+			    	<h3 class="card-title">{{completed_school_fees}}</h3>
+			  	</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="col">
+		<div class="col-md">
+			<div class="card text-center text-white  mb-3" id="not_completed_school_fees">
+			  	<div class="card-header">
+			  		<h5 class="card-title">Fees Not Completed</h5>
+			  	</div>
+			  	<div class="card-body">
+			    	<h3 class="card-title">{{not_completed_school_fees}}</h3>
+			  	</div>
+			</div>
+		</div>
+	</div>
+</div>
+<hr>
+<main role="main" class="container">
+    <h3 style="color: rgb(11, 112, 128);text-align: center; font-weight: bold;">Search Students</h3>
+         <form method="GET" action=".">
+            <div class="form-row">
+                <div class="form-group col-12">
+                    <div class="input-group">
+                        <input class="form-control py-2 border-right-0 border" type="search" name="students_or_classrooms" placeholder="Student or Classroom..." />
+                        <span class="input-group-append">
+                            <div class="input-group-text bg-transparent">
+                                <i class="fa fa-search"></i>
+                            </div>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-12">
+                    <div class="input-group">
+                        <input class="form-control py-2 border-right-0 border" type="search" name="students_contains" placeholder="Student contains..." />
+                        <span class="input-group-append">
+                            <div class="input-group-text bg-warning">
+                                <i class="fa fa-search"></i>
+                            </div>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-12">
+                    <div class="input-group">
+                        <input class="form-control py-2 border-right-0 border" type="search" name="id_exact" placeholder="ID exact..." />
+                        <span class="input-group-append">
+                            <div class="input-group-text bg-warning">
+                                <i class="fa fa-search"></i>
+                            </div>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-2 col-lg-2">
+                    <label for="publishDateMin">Publish date minimum</label>
+                    <input type="date" class="form-control" id="publishDateMin" name="date_min">
+                  </div>
+                  <div class="form-group col-md-2 col-lg-2">
+                    <label for="publishDateMax">Publish date maximum</label>
+                    <input type="date" class="form-control" id="publishDateMax" name="date_max">
+            </div>
+            <div class="form-group col-md-4">
+                <label for="classroom">Classroom</label>
+                <select id="classroom" class="form-control" name="classroom">
+                  <option selected>Choose...</option>
+                  {% for cls in classrooms %}
+                  <option value="{{ cls }}">{{ cls }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+            <div class="form-group col-md-4">
+                <label for="classroom">Students</label>
+                <select id="student" class="form-control" name="student">
+                  <option selected>Choose...</option>
+                  {% for sts in students %}
+                  <option value="{{ sts }}">{{ sts }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" id="completed" name="completed">
+                  <label class="form-check-label" for="completed">
+                    Completed-Fees
+                  </label>
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" id="notCompleted" name="notCompleted">
+                  <label class="form-check-label" for="notCompleted">
+                    Not-completed-Fees
+                  </label>
+                </div>
+              </div>
+            </div>
+            <button type="submit" class="btn btn-primary">Search</button>
+         </form>
+            <br>
+            <hr>
+            <div class="table-wrapper-scroll-y my-custom-scrollbar">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-striped mb-0 table-hover">
+                      <thead class="thead-indigo text-white">
+                        <tr>
+                            <th>Student</th>
+                            <th>Classroom</th>
+                            <th>School-Fees</th>
+                            <th>Fees Paid</th>
+                            <th>Fees Remained</th>
+                            <th>Publish Date</th>
+                            <th>Update</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        {% for records in queryset %}
+                          <tr>
+                              <td>{{ records.students }}</td>
+                              <td>
+                            <a class='mr-2'>{{ records.classrooms }}</a>
+                            </td>
+                            <!--{% for cat in report.categories.all %}
+                                {{ cat.name }}
+                              {% endfor %}
+                            <!--</tr>-->
+                            <td>{{ records.school_fees }}</td>
+                            <td>{{ records.received_fees }}</td>
+                            <td>{{ records.Remaining_fees }}</td>
+                            <td>{{ records.publish_date|date:"F d Y" }}</td>
+                            <td><a class="btn btn-sm btn-info" href="#">Update</a></td>
+                          </tr>
+                        {% endfor %}
+                      </tbody>
+                      </table>
+              </div>
+                    </div>
+              <!--</article>-->
+                  </main>
+            </div>
+{% endblock %}
