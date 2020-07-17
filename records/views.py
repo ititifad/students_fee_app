@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404, HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from .models import *
 from django.contrib import messages
@@ -79,3 +79,16 @@ def CreateRecord(request):
         }
         return render(request, 'records/records_form.html', context)
     
+def UpdateRecord(request, pk):
+	record = Records.objects.get(id=pk)
+	form = RecordsForm(instance=record)
+	print('RECORD:', record)
+	if request.method == 'POST':
+
+		form = RecordsForm(request.POST, instance=record)
+		if form.is_valid():
+			form.save()
+			return redirect('/')
+
+	context = {'form':form}
+	return render(request, 'records/records_form.html', context)
