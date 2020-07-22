@@ -4,6 +4,7 @@ from .models import *
 from django.contrib import messages
 from django.db.models import Q, Count
 from .forms import RecordsForm
+from django.db.models import Sum
 
 def is_valid_queryparam(param):
         return param != '' and param is not None
@@ -25,6 +26,7 @@ def home(request):
     total_students = students.count()
     completed_school_fees = qs.filter(completed='True').count()
     not_completed_school_fees = qs.filter(completed='False').count()
+    Total_fees = Records.objects.aggregate(Sum('received_fees'))
     
     if is_valid_queryparam(students_contains_query):
         qs = qs.filter(student__icontains=students_contains_query)
@@ -60,7 +62,8 @@ def home(request):
         'students' : students,
         'total_students' : total_students,
         'completed_school_fees' : completed_school_fees,
-        'not_completed_school_fees' : not_completed_school_fees
+        'not_completed_school_fees' : not_completed_school_fees,
+        'Total_fees' : Total_fees
         
     }
     return render(request, 'records/home.html', context)

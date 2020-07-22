@@ -18,7 +18,22 @@
 			  	</div>
 			</div>
 		</div>
-	</div>
+  </div>
+  
+  <div class="row">
+    <div class="col">
+      <div class="col-md">
+        <div class="card text-center mb-3" id="Total_fees">
+            <div class="card-header">
+              <h5 class="card-title text-white">Total School Fees Paid</h5>
+            </div>
+            <div class="card-body">
+              <h3 class="card-title text-white">Tsh.{{Total_fees}}</h3>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
 	<div class="col">
 		<div class="col-md">
@@ -48,9 +63,9 @@
 </div>
 <hr>
 <main role="main" class="container">
-    <h3 style="color: rgb(11, 112, 128);text-align: center; font-weight: bold;">Search Students</h3>
+    <h3 style="color: rgb(11, 112, 128);text-align: center; font-weight: bold;">Search Student Details</h3>
          <form method="GET" action=".">
-            <!--<div class="form-row">
+            <div class="form-row">
                 <div class="form-group col-12">
                     <div class="input-group">
                         <input class="form-control py-2 border-right-0 border" type="search" name="students_or_classrooms" placeholder="Student or Classroom..." />
@@ -73,7 +88,7 @@
                         </span>
                     </div>
                 </div>
-            </div>-->
+            </div>
             <div class="form-row">
                 <div class="form-group col-12">
                     <div class="input-group">
@@ -145,6 +160,7 @@
                             <th>School-Fees</th>
                             <th>Fees Paid</th>
                             <th>Fees Remained</th>
+                            <th>Phone</th>
                             <th>Publish Date</th>
                             <th>Update</th>
                     </tr>
@@ -163,6 +179,7 @@
                             <td>{{ records.school_fees }}</td>
                             <td>{{ records.received_fees }}</td>
                             <td>{{ records.Remaining_fees }}</td>
+                            <td>{{records.phone_number}}</td>
                             <td>{{ records.publish_date|date:"F d Y" }}</td>
                             <td><a class="btn btn-sm btn-info" href="{% url 'update-record' records.id %}">Update</a></td>
                           </tr>
